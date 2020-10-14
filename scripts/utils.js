@@ -42,7 +42,7 @@ function latinise(str) {
 function build(object) {
     const output = [];
     for (const p of object) {
-        output.push(new GameEntry(p[0], p[1]));
+        output.push(new GameEntry(p[0], p[1], p[2]));
     }
     return new Game(output);
 }

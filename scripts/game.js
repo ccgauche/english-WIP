@@ -27,11 +27,14 @@ class GameEntry {
     sentences: Array<String>,
     entries: Array<String>[2],
     raw_entries: Array<String>[2],
-    sentence: String
+    sentence: String,
+    hints: Map<String,String>
     */
 
-    constructor(sentences, entries) {
+    constructor(sentences, entries, hints = undefined) {
         this.tries = 0;
+        this.hints = hints === undefined ? {} : hints;
+        console.log(this.hints);
         this.hint_used = false;
         this.sentences = Array.isArray(sentences) ? sentences : [sentences];
         this.entries = [];
@@ -50,6 +53,32 @@ class GameEntry {
             }
         }
         this.sentence = take(this.sentences);
+    }
+
+    findHelp() {
+        for (const i in inputs) {
+            const input = inputs[i];
+            const text = normalize(input.value);
+            for (const hint_error in this.hints) {
+                const hint_displayed = this.hints[hint_error];
+                const _hint_error = normalize(hint_error);
+                console.log(_hint_error, text);
+                if (_hint_error === text) {
+                    $("app__feedback_" + i).innerText = hint_displayed;
+                    return;
+                }
+            }
+            for (const func of APPHELP) {
+                for (const entry of this.entries[i]) {
+                    const out = func(text, entry);
+                    console.log(text, entry, out);
+                    if (out !== undefined) {
+                        $("app__feedback_" + i).innerText = out;
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     getPoints() {
@@ -98,7 +127,7 @@ class GameEntry {
             input.className = "form-control";
             input.value = "";
         }
-        display.innerText = this.sentence;
+        display.innerHTML = this.sentence;
     }
 
     displayAnswers() {

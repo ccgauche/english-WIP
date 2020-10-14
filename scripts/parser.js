@@ -1,13 +1,65 @@
 let APPDATA;
 let APPCONFIG;
+let APPHELP;
 
 function init() {
 
     APPDATA = [
-        ["You taked the bus!", ["Did I take the bus?", "You didn't take the bus!"]],
-        ["My phone number is +33 621 232 010!", ["What is your phone number?", "My phone number is not +33 621 232 010!"]],
-        ["I like climbing!", [["What do you like?", "What is your favorite sport?"], "I don't like climbing!"]],
+        ["You <u>took the bus</u>!",
+            [
+                "Did I take the bus?",
+                "You didn't take the bus!"
+            ]
+        ],
+        [
+            "My <u>phone number</u> is +33 621 232 010!",
+            [
+                "What is your phone number?",
+                "My phone number is not +33 621 232 010!"
+            ]
+        ],
+        [
+            "I read two books <u>last weekend</u>.",
+            [
+                "When did you read two books?",
+                [
+                    "I didn't read two books last weekend.",
+                    "I didn't read two books."
+                ],
+            ]
+        ],
     ];
+
+    APPHELP = [
+        (normalized_string, wanted_string) => {
+            if (normalized_string.replace("do ", "did ") === wanted_string ||
+                normalized_string.replace("did ", "do ") === wanted_string) {
+                return "Avez-vous bien conjugué votre auxiliaire?";
+            }
+        },
+        (normalized_string, wanted_string) => {
+            if (normalized_string.replace("was ", "were ") === wanted_string ||
+                normalized_string.replace("were ", "was ") === wanted_string) {
+                return "Avez-vous bien conjugué BE au prétérit? Vérifiez le sujet!";
+            }
+        },
+        (normalized_string, wanted_string) => {
+            if (normalized_string.replace("are ", "is ") === wanted_string ||
+                normalized_string.replace("are ", "am ") === wanted_string ||
+                normalized_string.replace("is ", "are ") === wanted_string ||
+                normalized_string.replace("is ", "am ") === wanted_string ||
+                normalized_string.replace("am ", "is ") === wanted_string ||
+                normalized_string.replace("am ", "are ") === wanted_string) {
+                return "Avez-vous bien conjugué BE? Vérifiez le sujet!";
+            }
+        },
+        (normalized_string, wanted_string) => {
+            if (normalized_string.replace("not ", " ").replace("  ", " ") === wanted_string ||
+                normalized_string === wanted_string.replace("not ", " ").replace("  ", " ")) {
+                return "Vérifiez votre négation!";
+            }
+        }
+    ]
 
     APPCONFIG = {
         "normalisation": {
@@ -33,6 +85,9 @@ function init() {
                 };
             },
             "invalid": (entry) => {
+                if (entry.tries > 1) {
+                    entry.findHelp();
+                }
                 return {
                     icon: 'error',
                     title: 'Oops...',

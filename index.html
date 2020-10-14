@@ -26,17 +26,20 @@
         <div class="form-group row mt-4">
             <div class="form-group col-lg-12">
                 <div class="form-group row">
-                    <label for="staticEmail" class="col-lg-2 col-form-label">Interogative form</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control" id="app__input_0" autocomplete="off" autocorrect="off"
-                            autocapitalize="off" spellcheck="false">
-                    </div>
-                </div>
-                <div class="form-group row">
                     <label for="staticEmail" class="col-lg-2 col-form-label">Negative form</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control" id="app__input_1" autocomplete="off" autocorrect="off"
-                            autocapitalize="off" spellcheck="false">
+                            autocapitalize="off" spellcheck="false" placeholder="Turn into the negative form">
+                        <div class="invalid-feedback" id="app__feedback_1"></div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-lg-2 col-form-label">Interrogative form</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="app__input_0" autocomplete="off" autocorrect="off"
+                            autocapitalize="off" spellcheck="false"
+                            placeholder="Ask the question corresponding to the underlined passage">
+                        <div class="invalid-feedback" id="app__feedback_0"></div>
                     </div>
                 </div>
             </div>
@@ -49,9 +52,8 @@
     <footer class="page-footer font-small bg-dark fixed-bottom text-light">
 
         <div class="footer-copyright text-center py-3">
-            Made with ♥ by
-            <a href="https://github.com/ccgauche"> Laurent Gaucheron</a>
-
+            Made with love by
+            <a href="https://github.com/ccgauche"> Laurent Gaucheron with help of Miss Deschamps</a>
         </div>
     </footer>
     <script src="scripts/mapping.js"></script>
